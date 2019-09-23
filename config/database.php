@@ -8,9 +8,9 @@ class Database {
 
     //Db credentials
     private $host = 'localhost';
-    private $db_name = 'api_db';
-    private $username = 'admin';
-    private $password = 'admin';
+    private $db_name = 'api_libros';
+    private $username = 'pruebas';
+    private $password = '';
 
     public $conn;
 
