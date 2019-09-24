@@ -40,6 +40,4 @@ class Utilities{
         return $paging_arr;
     }
 
-
-
 }
