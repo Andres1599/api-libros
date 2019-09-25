@@ -49,7 +49,7 @@ if($num>0){
     }
 
     echo json_encode($products_arr);
-}else{
+} else {
     echo json_encode(
         array("message" => "No products found.")
     );
