@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 //Req includes
 include_once '../../config/database.php';
-include_once '../../objects/usuario.php';
+include_once '../../models/usuario.php';
 
 //Db conn and instances
 $database = new Database();

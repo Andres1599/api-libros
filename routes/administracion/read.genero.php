@@ -8,7 +8,7 @@ header("Content-Type: application/json; charset=UTF-8");
 //Include db and object
 
 include_once '../../config/database.php';
-include_once '../../objects/generos.php';
+include_once '../../models/generos.php';
 
 //New instances
 
