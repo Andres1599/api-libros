@@ -18,22 +18,18 @@ $usuario = new Usuario($db);
 
 //Get post data
 $data = json_decode(file_get_contents("php://input"));
+//set values
+$usuario->id_usuario = $data->id_usuario;
 
-//set usuarios values
-$usuario->_nombre = $data->nombre;
-$usuario->_apellido = $data->apellido;
-$usuario->_genero = $data->genero;
-$usuario->correo_usuario = $data->correo;
-$usuario->contrasena_usuario = $data->pass;
-$usuario->_tipo = $data->tipo;
+$usuario->getUsuarioId();
 
-if($usuario->registro()){
-    echo '{';
-        echo '"message": "Usuario creado exitosamente."';
-    echo '}';
-}else{
-    echo '{';
-        echo '"message": "Incapaz de crear un usuario."';
-    echo '}';
-}
+$usuario_arr = array(
+    "correo" => $usuario->correo_usuario,
+    "estado" => $usuario->estado_usuario,
+    "nombre" => $usuario->_nombre,
+    "apellido" => $usuario->_apellido,
+    "genero" => $usuario->_genero
+);
+
+print_r(json_encode($usuario_arr));
 ?>

@@ -18,4 +18,15 @@ class Generos
         $this->conn = $db;
     }
 
+    //obtener todos los generos
+    public function read(){
+        //select all
+        $query = "SELECT id_genero, nombre_genero FROM " . $this->table_name . "";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //execute
+        $stmt->execute();
+        return $stmt;
+    }
+
 }
