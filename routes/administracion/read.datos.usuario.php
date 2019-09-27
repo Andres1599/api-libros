@@ -11,7 +11,6 @@ include_once '../../config/database.php';
 include_once '../../models/datos.usuario.php';
 
 //New instances
-
 $database = new Database();
 $db = $database->getConnection();
 
