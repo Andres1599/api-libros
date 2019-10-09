@@ -199,4 +199,14 @@ class Articulos
             return false;
         }
     }
+
+    public function getMaxArticulo() {
+        $query = "SELECT MAX(id_articulo) AS id_articulo FROM ". $this->table_name. ";";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //execute
+        $stmt->execute();
+        // return execute
+        return $stmt;
+    }
 }
