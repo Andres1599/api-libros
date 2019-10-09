@@ -27,13 +27,14 @@ $usuario->correo_usuario = $data->correo;
 $usuario->contrasena_usuario = $data->pass;
 $usuario->_tipo = $data->tipo;
 
-if($usuario->registro()){
-    echo '{';
-        echo '"message": "Usuario creado exitosamente."';
-    echo '}';
-}else{
-    echo '{';
-        echo '"message": "Incapaz de crear un usuario."';
-    echo '}';
+try {
+    
+    $stmt = $usuario->registro();
+    
+    $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode($user);
+} catch (Exception $e) {
+    echo 'Excepción capturada: ',  $e->getMessage(), "\n";
 }
 ?>

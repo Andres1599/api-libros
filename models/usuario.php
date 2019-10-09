@@ -66,28 +66,46 @@ class Usuario
 
     //regustrar un nuevo usuario
     public function registro(){
-        $query = "CALL pr_registro_usuario(:nombre,:apellido,:genero,:correo,:pass,:tipo);";
-        //prepare
+        //out el query con la variable out
+        $query = "SET @ID = 0;";
+        //preparo el query con la variable out
         $stmt = $this->conn->prepare($query);
-        //sanitize
-        $this->_nombre=htmlspecialchars(strip_tags($this->_nombre));
-        $this->_apellido=htmlspecialchars(strip_tags($this->_apellido));
-        $this->_genero=htmlspecialchars(strip_tags($this->_genero));
-        $this->correo_usuario=htmlspecialchars(strip_tags($this->correo_usuario));
-        $this->contrasena_usuario=htmlspecialchars(strip_tags($this->contrasena_usuario));
-        $this->_tipo=htmlspecialchars(strip_tags($this->_tipo));
-        //bind id
-        $stmt->bindParam(":nombre",$this->_nombre);
-        $stmt->bindParam(":apellido",$this->_apellido);
-        $stmt->bindParam(":genero",$this->_genero);
-        $stmt->bindParam(":correo",$this->correo_usuario);
-        $stmt->bindParam(":pass",$this->contrasena_usuario);
-        $stmt->bindParam(":tipo",$this->_tipo);
-        //execute
-        if($stmt->execute()){
-            return true;
+        //lo ejecuto
+        if ($stmt->execute()){
+            //preparo el query con el procedimiento almacenado
+            $query = "CALL pr_registro_usuario(:correo,:pass,:tipo,:nombre,:apellido,:genero,@ID);";
+            //prepare
+            $stmt = $this->conn->prepare($query);
+            //sanitize
+            $this->_nombre=htmlspecialchars(strip_tags($this->_nombre));
+            $this->_apellido=htmlspecialchars(strip_tags($this->_apellido));
+            $this->_genero=htmlspecialchars(strip_tags($this->_genero));
+            $this->correo_usuario=htmlspecialchars(strip_tags($this->correo_usuario));
+            $this->contrasena_usuario=htmlspecialchars(strip_tags($this->contrasena_usuario));
+            $this->_tipo=htmlspecialchars(strip_tags($this->_tipo));
+            //bind id
+            $stmt->bindParam(":nombre",$this->_nombre);
+            $stmt->bindParam(":apellido",$this->_apellido);
+            $stmt->bindParam(":genero",$this->_genero);
+            $stmt->bindParam(":correo",$this->correo_usuario);
+            $stmt->bindParam(":pass",$this->contrasena_usuario);
+            $stmt->bindParam(":tipo",$this->_tipo);
+            //execute
+            if ($stmt->execute()){
+                //creo el query para obtener el valor
+                $_query = "SELECT @ID AS id_usuario";
+                //preparo el query para obtener el valor
+                $_stmt = $this->conn->prepare($_query);
+                //ejecuto el query
+                $_stmt->execute();
+                //devuelvo el query
+                return $_stmt;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
-        return false;
     }
 
     //obtener informacion por id
