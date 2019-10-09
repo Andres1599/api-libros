@@ -25,7 +25,7 @@ class SubCategorias
 
     public function createSubCategoria(){
         //preara query
-        $query = "INSERT INTO ".$this->table_name."VALUES (0,:nombre,:categoria);";
+        $query = "INSERT INTO tb_sub_categorias VALUES (0,:nombre,:categoria);";
         //prepare
         $stmt = $this->conn->prepare($query);
         //sanitize
