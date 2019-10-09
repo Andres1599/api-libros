@@ -25,7 +25,7 @@ class SubCategorias
 
     public function createSubCategoria(){
         //preara query
-        $query = "INSERT INTO ".$this->table_name."VALUES (:nombre,:categoria);";
+        $query = "INSERT INTO ".$this->table_name."VALUES (0,:nombre,:categoria);";
         //prepare
         $stmt = $this->conn->prepare($query);
         //sanitize
@@ -39,15 +39,14 @@ class SubCategorias
             return true;
         } 
         return false;
-    } 
+    }
 
     public function createCategoria(){
-        $query = "INSERT INTO ".$this->table_name_."VALUES (:nombre,true);";
+        $query = "INSERT INTO tb_categorias VALUES (0,:nombre,true);";
         //prepare
         $stmt = $this->conn->prepare($query);
         //sanitize
         $this->nombre_sub_categoria = htmlspecialchars(strip_tags($this->nombre_sub_categoria));
-        $this->fk_id_categoria = htmlspecialchars(strip_tags($this->fk_id_categoria));
         //bind
         $stmt->bindParam(":nombre",$this->nombre_sub_categoria);
         //execute

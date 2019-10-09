@@ -8,31 +8,37 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 //Req includes
 include_once '../../config/database.php';
-include_once '../../models/subscripcion.php';
+include_once '../../models/sub.categorias.php';
 
 //Db conn and instances
 $database = new Database();
 $db=$database->getConnection();
 
-$sub = new Subscripcion($db);
-
-// Get the data input
-$data = json_decode(file_get_contents("php://input"));
-
-// set the data
-$sub->id_tipo_sub = $data->id_tipo_sub;
-$sub->id_subscripcion = $data->id_subscripcion;
+$subcat = new SubCategorias($db);
 
 try {
-    if($sub->updateSub()){
-        echo json_encode( array(
-            "message" => "Se ha agregado correctamente la subscripción."
-        ));
+    
+    //Get post data
+    $data = json_decode(file_get_contents("php://input"));
+    //set values
+    $subcat->nombre_sub_categoria = $data->nombre;
+
+    if ($subcat->createCategoria()) {
+        echo json_encode(
+            array(
+                "message"=>"Se ha agregado correctamente la categoria."
+            )
+        );
     } else {
-        echo json_encode( array(
-            "message" => "Error al ingresar la nueva subscripción."
-        ));
+        echo json_encode(
+            array(
+                "message"=>"No se ha agregado correctamente la categoria."
+            )
+        );
     }
+    
+
+
 } catch (Exception $e) {
     echo 'Excepción capturada: ',  $e->getMessage(), "\n";
 }
