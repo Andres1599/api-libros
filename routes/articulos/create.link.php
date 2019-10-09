@@ -22,15 +22,15 @@ $data = json_decode(file_get_contents("php://input"));
 
 //set data in the attributes
 $articulo->fk_id_articulo = $data->id_articulo;
-$articulo->path = $data->path;
+$articulo->link_articulo = $data->link;
 
-if ($articulo->createAImagen()) {
+if ($articulo->createALink()) {
     echo '{';
-        echo '"message": "Se ha agregado correctamente una nueva imagen."';
+        echo '"message": "Se ha agregado correctamente un nuevo link."';
     echo '}';
 } else {
     echo '{';
-        echo '"message": "Incapaz de crear una imagen."';
+        echo '"message": "Incapaz de crear un link."';
     echo '}';
 }
 } catch (Exception $e) {

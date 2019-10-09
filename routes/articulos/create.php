@@ -21,7 +21,8 @@ $data = json_decode(file_get_contents("php://input"));
 
 //set data in the attributes
 $articulo->titulo_articulo = $data->titulo;
-$articulo->cuerpo_articulo = $data->cuerpo;
+$articulo->fk_id_estado = $data->fk_id_estado;
+$articulo->plantilla_articulo = $data->plantilla_articulo;
 
 if($articulo->createA()) {
     echo '{';

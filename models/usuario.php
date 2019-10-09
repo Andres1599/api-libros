@@ -115,4 +115,20 @@ class Usuario
         $this->_genero = $row['genero'];
     }
 
+    //hacer login 
+    public function log(){
+        $query = "SELECT login_usuario(:correo,:pass) AS log";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->correo_usuario=htmlspecialchars(strip_tags($this->correo_usuario));
+        $this->contrasena_usuario=htmlspecialchars(strip_tags($this->contrasena_usuario));
+        //bind id
+        $stmt->bindParam(":correo",$this->correo_usuario);
+        $stmt->bindParam(":pass",$this->contrasena_usuario);
+        //execute
+        $stmt->execute();
+        return $stmt;
+    }
+
 }

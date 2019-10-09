@@ -21,16 +21,15 @@ $articulo = new Articulos($db);
 $data = json_decode(file_get_contents("php://input"));
 
 //set data in the attributes
-$articulo->fk_id_articulo = $data->id_articulo;
-$articulo->path = $data->path;
+$articulo->id_articulo = $data->id_articulo;
 
-if ($articulo->createAImagen()) {
+if ($articulo->deleteArticulo()) {
     echo '{';
-        echo '"message": "Se ha agregado correctamente una nueva imagen."';
+        echo '"message": "Se ha eliminado el articulo."';
     echo '}';
 } else {
     echo '{';
-        echo '"message": "Incapaz de crear una imagen."';
+        echo '"message": "Incapaz de eliminar el articulo."';
     echo '}';
 }
 } catch (Exception $e) {
