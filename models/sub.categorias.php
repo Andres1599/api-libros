@@ -102,4 +102,20 @@ class SubCategorias
         
     }
 
+    public function deleteCat() {
+        $query = "DELETE FROM tb_categorias WHERE id_categoria = ?;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->id_categoria = htmlspecialchars(strip_tags($this->id_categoria));
+        //bind
+        $stmt->bindParam(1,$this->id_categoria);
+        //execute
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
