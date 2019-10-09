@@ -209,4 +209,14 @@ class Articulos
         // return execute
         return $stmt;
     }
+
+    public function getAll() {
+        $query = "SELECT s.id_articulo as id_articulo FROM tb_articulos s;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //execute
+        $stmt->execute();
+        // return execute
+        return $stmt;
+    }
 }
