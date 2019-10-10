@@ -32,6 +32,10 @@ class Articulos
     //object sub categoria articulo
     public $categoria;
     public $sub_categoria;
+
+    //by limit and offset
+    public $limit;
+    public $offset;
     
 
     public function __construct($db)
@@ -218,5 +222,40 @@ class Articulos
         $stmt->execute();
         // return execute
         return $stmt;
+    }
+
+    public function getDestacados() {
+        $query = "SELECT s.id_articulo as id_articulo, s.visita_articulo as visita FROM tb_articulos s ORDER BY s.visita_articulo DESC LIMIT 4;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //execute
+        $stmt->execute();
+        // return execute
+        return $stmt;
+    }
+
+    public function getLimitOffset($limit,$offset){
+        $query = "SELECT s.id_articulo as id_articulo FROM tb_articulos s ORDER BY s.fecha_publicacion LIMIT ? OFFSET ?";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //bind foreign key and the path
+        $stmt->bindParam(1, $limit, PDO::PARAM_INT);
+        $stmt->bindParam(2, $offset, PDO::PARAM_INT);
+        //execute
+        $stmt->execute();
+        // return execute
+        return $stmt;
+    }
+
+    public function getCount() {
+        $query = "SELECT COUNT(*) as total FROM tb_articulos s;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //execute
+        $stmt->execute();
+        //return row
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        // return execute
+        return $row['total'];
     }
 }

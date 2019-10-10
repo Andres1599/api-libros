@@ -111,16 +111,16 @@ class Usuario
     //obtener informacion por id
     public function getUsuarioId(){
         //prepare query
-        $query = "SELECT u.correo_usuario as correo, u.estado_usuario as estado, d.nombre_usuario as nombre, d.apellido_usuario as apellido, g.nombre_genero as genero FROM tb_usuario u
+        $query = "SELECT u.id_usuario as id_usuario, u.correo_usuario as correo, u.estado_usuario as estado, d.nombre_usuario as nombre, d.apellido_usuario as apellido, g.nombre_genero as genero FROM tb_usuario u
         LEFT OUTER JOIN tb_datos_usuario d ON u.id_usuario = d.fk_id_usuario
         LEFT OUTER JOIN tb_generos g ON d.fk_id_genero = g.id_genero
-        WHERE u.id_usuario = ?";
+        WHERE u.correo_usuario = ?";
         //preparete query
         $stmt = $this->conn->prepare($query);
         //sanitize
-        $this->id_usuario=htmlspecialchars(strip_tags($this->id_usuario));
+        $this->correo_usuario=htmlspecialchars(strip_tags($this->correo_usuario));
         //bind id 
-        $stmt->bindParam(1,$this->id_usuario);
+        $stmt->bindParam(1,$this->correo_usuario);
         //execute
         $stmt->execute();
         //fetch
@@ -131,6 +131,7 @@ class Usuario
         $this->_nombre = $row['nombre'];
         $this->_apellido = $row['apellido'];
         $this->_genero = $row['genero'];
+        $this->id_usuario = $row['id_usuario'];
     }
 
     //hacer login 

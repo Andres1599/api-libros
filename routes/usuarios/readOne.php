@@ -19,7 +19,7 @@ $usuario = new Usuario($db);
 //Get post data
 $data = json_decode(file_get_contents("php://input"));
 //set values
-$usuario->id_usuario = $data->id_usuario;
+$usuario->correo_usuario = $data->correo;
 
 $usuario->getUsuarioId();
 
@@ -28,7 +28,8 @@ $usuario_arr = array(
     "estado" => $usuario->estado_usuario,
     "nombre" => $usuario->_nombre,
     "apellido" => $usuario->_apellido,
-    "genero" => $usuario->_genero
+    "genero" => $usuario->_genero,
+    "id_usuario" => $usuario->id_usuario
 );
 
 print_r(json_encode($usuario_arr));
