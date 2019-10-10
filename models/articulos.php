@@ -258,4 +258,18 @@ class Articulos
         // return execute
         return $row['total'];
     }
+
+    public function updateVista(){
+        $query = "UPDATE tb_articulos SET visita_articulo=visita_articulo + 1 WHERE id_articulo = ?;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //bind
+        $stmt->bindParam(1,$this->id_articulo, PDO::PARAM_INT);
+        //execute
+        if($stmt->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
