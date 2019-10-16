@@ -26,7 +26,7 @@ try {
     $stmt = $user->getView();
 
     // retorno un json
-    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC)[0]);
 
 } catch (Exception $e) {
     echo 'Excepción capturada: ',  $e->getMessage(), "\n";
