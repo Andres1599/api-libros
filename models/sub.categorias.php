@@ -18,7 +18,7 @@ class SubCategorias
     public $estado_categoria;
     public $fk_id_tipo;
     public $imagen_categoria;
-    
+    public $imagen_sub;
 
     public function __construct($db)
     {
@@ -27,15 +27,17 @@ class SubCategorias
 
     public function createSubCategoria(){
         //preara query
-        $query = "INSERT INTO tb_sub_categorias VALUES (0,:nombre,:categoria);";
+        $query = "INSERT INTO tb_sub_categorias VALUES (0,:nombre,:categoria,:img);";
         //prepare
         $stmt = $this->conn->prepare($query);
         //sanitize
         $this->nombre_sub_categoria = htmlspecialchars(strip_tags($this->nombre_sub_categoria));
         $this->fk_id_categoria = htmlspecialchars(strip_tags($this->fk_id_categoria));
+        $this->imagen_sub = htmlspecialchars(strip_tags($this->imagen_sub));
         //bind
         $stmt->bindParam(":nombre",$this->nombre_sub_categoria);
         $stmt->bindParam(":categoria",$this->fk_id_categoria);
+        $stmt->bindParam(":img",$this->imagen_sub);
         //execute
         if ($stmt->execute()) {
             return true;

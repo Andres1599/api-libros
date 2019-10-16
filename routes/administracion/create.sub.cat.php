@@ -23,6 +23,7 @@ try {
     //set values
     $subcat->nombre_sub_categoria = $data->nombre;
     $subcat->fk_id_categoria = $data->id_categoria;
+    $subcat->imagen_sub = $data->img;
 
     if ($subcat->createSubCategoria()) {
         echo json_encode(
