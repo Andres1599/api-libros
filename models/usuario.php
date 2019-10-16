@@ -150,4 +150,18 @@ class Usuario
         return $stmt;
     }
 
+    // esta funcion lee la vista para poder obtener la información del usuario en especifico
+    public function getView(){
+        $query = "SELECT * FROM datos_usuario d WHERE d.id = ?";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->id_usuario=htmlspecialchars(strip_tags($this->id_usuario));
+        //bind id
+        $stmt->bindParam(1,$this->id_usuario);
+        //execute
+        $stmt->execute();
+        return $stmt;
+    }
+
 }
