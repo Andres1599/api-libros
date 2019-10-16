@@ -21,7 +21,9 @@ try {
     //Get post data
     $data = json_decode(file_get_contents("php://input"));
     //set values
-    $subcat->nombre_sub_categoria = $data->nombre;
+    $subcat->nombre_categoria = $data->nombre;
+    $subcat->fk_id_tipo = $data->tipo;
+    $subcat->imagen_categoria = $data->img;
 
     if ($subcat->createCategoria()) {
         echo json_encode(

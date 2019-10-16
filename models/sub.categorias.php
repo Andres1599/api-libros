@@ -16,6 +16,8 @@ class SubCategorias
     public $id_categoria;
     public $nombre_categoria;
     public $estado_categoria;
+    public $fk_id_tipo;
+    public $imagen_categoria;
     
 
     public function __construct($db)
@@ -42,13 +44,17 @@ class SubCategorias
     }
 
     public function createCategoria(){
-        $query = "INSERT INTO tb_categorias VALUES (0,:nombre,true);";
+        $query = "INSERT INTO tb_categorias VALUES (0,:nombre,true,:tipo,:img);";
         //prepare
         $stmt = $this->conn->prepare($query);
         //sanitize
-        $this->nombre_sub_categoria = htmlspecialchars(strip_tags($this->nombre_sub_categoria));
+        $this->nombre_categoria = htmlspecialchars(strip_tags($this->nombre_categoria));
+        $this->fk_id_tipo = htmlspecialchars(strip_tags($this->fk_id_tipo));
+        $this->imagen_categoria = htmlspecialchars(strip_tags($this->imagen_categoria));
         //bind
-        $stmt->bindParam(":nombre",$this->nombre_sub_categoria);
+        $stmt->bindParam(":nombre",$this->nombre_categoria);
+        $stmt->bindParam(":tipo",$this->fk_id_tipo);
+        $stmt->bindParam(":img",$this->imagen_categoria);
         //execute
         if ($stmt->execute()) {
             return true;
@@ -67,7 +73,7 @@ class SubCategorias
     }
 
     public function getCategorias(){
-        $query = "SELECT id_categoria,nombre_categoria,estado_categoria FROM tb_categorias;";
+        $query = "SELECT * FROM tb_categorias;";
         //prepare
         $stmt = $this->conn->prepare($query);
         //execute
@@ -115,6 +121,15 @@ class SubCategorias
         } else {
             return false;
         }
+    }
+
+    public function getTipoCategoria() {
+        $query = "SELECT * FROM tb_tipo_categoria;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //execute
+        $stmt->execute();
+        return $stmt;
     }
 
 }
