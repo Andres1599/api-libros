@@ -126,7 +126,16 @@ class SubCategorias
     }
 
     public function getTipoCategoria() {
-        $query = "SELECT * FROM tb_tipo_categoria;";
+        $query = "SELECT * FROM tb_tipo_subscripcion;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //execute
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function getView() {
+        $query = "SELECT * FROM categorias;";
         //prepare
         $stmt = $this->conn->prepare($query);
         //execute
