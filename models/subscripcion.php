@@ -84,4 +84,21 @@ class Subscripcion
             return false;
         }
     }
+
+    public function getMySubscripcion() {
+        $query = "SELECT * FROM tb_subscripcion s INNER JOIN tb_tipo_subscripcion t ON s.fk_id_tipo_sub = t.id_tipo_sub where fk_id_usuario =?;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->fk_id_usuario=htmlspecialchars(strip_tags($this->fk_id_usuario));
+        //bind
+        $stmt->bindParam(1, $this->fk_id_usuario);
+        //execute
+        if($stmt->execute()){
+            $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $row;
+        }else {
+            return false;
+        }
+    }
 }

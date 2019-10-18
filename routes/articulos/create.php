@@ -25,13 +25,9 @@ $articulo->fk_id_estado = $data->fk_id_estado;
 $articulo->plantilla_articulo = $data->plantilla_articulo;
 
 if($articulo->createA()) {
-    echo '{';
-        echo '"message": "Se ha creado correctamente el articulo."';
-    echo '}';
+    $stmt = $articulo->getArticuloTitulo();
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC)[0]);
 } else {
-    echo '{';
-        echo '"message": "Incapaz de crear un articulo."';
-    echo '}';
+    echo json_encode( array( "message" => "error al crear el articulo"));
 }
-
 ?>

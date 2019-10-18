@@ -272,4 +272,17 @@ class Articulos
             return false;
         }
     }
+
+    public function getArticuloTitulo(){
+        $query = "SELECT * FROM tb_articulos WHERE titulo_articulo = ?;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->titulo_articulo=htmlspecialchars(strip_tags($this->titulo_articulo));
+        //bind
+        $stmt->bindParam(1,$this->titulo_articulo);
+        //execute
+        $stmt->execute();
+        return $stmt;
+    }
 }
