@@ -105,8 +105,7 @@ class SubCategorias
             return true;
         } else {
             return false;
-        }
-        
+        } 
     }
 
     public function deleteCat() {

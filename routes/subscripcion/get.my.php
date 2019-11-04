@@ -25,7 +25,7 @@ try {
     $stmt = $cat->getMySubscripcion();
 
     // retorno un json
-    echo json_encode($stmt[0]);
+    echo json_encode($stmt);
 
 } catch (Exception $e) {
     echo 'Excepción capturada: ',  $e->getMessage(), "\n";

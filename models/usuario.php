@@ -164,4 +164,40 @@ class Usuario
         return $stmt;
     }
 
+    // esta funcion cambia el tipo de usuario dentro de la aplicación
+    public function updateRol() {
+        $query = "UPDATE tb_usuario SET fk_id_tipo_usuario = ? WHERE id_usuario = ?;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->id_usuario=htmlspecialchars(strip_tags($this->id_usuario));
+        $this->fk_id_tipo_usuario=htmlspecialchars(strip_tags($this->fk_id_tipo_usuario));
+        //bind id
+        $stmt->bindParam(1,$this->fk_id_tipo_usuario);
+        $stmt->bindParam(2,$this->id_usuario);
+        //execute
+        if($stmt->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // esta funcion deshabilita a un usuario
+    public function disableUser() {
+        $query = "UPDATE tb_usuario SET estado_usuario = 0 WHERE id_usuario = ?;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->id_usuario=htmlspecialchars(strip_tags($this->id_usuario));
+        //bind id
+        $stmt->bindParam(1,$this->id_usuario);
+        //execute
+        if($stmt->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
