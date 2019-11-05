@@ -86,7 +86,7 @@ class Subscripcion
     }
 
     public function getMySubscripcion() {
-        $query = "SELECT * FROM tb_subscripcion s INNER JOIN tb_tipo_subscripcion t ON s.fk_id_tipo_sub = t.id_tipo_sub where fk_id_usuario =?;";
+        $query = "SELECT * FROM tb_subscripcion s LEFT OUTER JOIN tb_tipo_subscripcion t ON s.fk_id_tipo_sub = t.id_tipo_sub where fk_id_usuario =?;";
         //prepare
         $stmt = $this->conn->prepare($query);
         //sanitize
@@ -96,7 +96,7 @@ class Subscripcion
         //execute
         if($stmt->execute()){
             $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $row;
+            return $row[0];
         }else {
             return false;
         }

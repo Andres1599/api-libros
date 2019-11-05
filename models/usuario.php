@@ -152,7 +152,7 @@ class Usuario
 
     // esta funcion lee la vista para poder obtener la información del usuario en especifico
     public function getView(){
-        $query = "SELECT * FROM datos_usuario d WHERE d.id = ?";
+        $query = "SELECT * FROM datos_usuario d WHERE d.id_usuario = ?;";
         //prepare
         $stmt = $this->conn->prepare($query);
         //sanitize

@@ -36,7 +36,9 @@ class Articulos
     //by limit and offset
     public $limit;
     public $offset;
-    
+
+    //by subcategoria
+    public $id_sub_categoria;
 
     public function __construct($db)
     {
@@ -284,5 +286,55 @@ class Articulos
         //execute
         $stmt->execute();
         return $stmt;
+    }
+
+    public function searchDinamicByCategorias(){
+        /**/
+        $query = "SET @table_name:='tb_sub_categoria_articulo';";
+        // prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->id_sub_categoria=htmlspecialchars(strip_tags($this->id_sub_categoria));
+        //bind
+        $stmt->bindParam(1,$this->id_sub_categoria);
+        //execute
+        if ($stmt->execute()){
+            $query = "SET @num:= ?;";
+            // prepare
+            $stmt = $this->conn->prepare($query);
+            //sanitize
+            $this->id_sub_categoria=htmlspecialchars(strip_tags($this->id_sub_categoria));
+            //bind
+            $stmt->bindParam(1,$this->id_sub_categoria);
+            //lo ejecuto
+            if ($stmt->execute()) {
+                $query = "SET @sql:=CONCAT('SELECT * FROM ',@table_name, ' WHERE fk_id_sub_categoria =', @num);";
+                // prepare
+                $stmt = $this->conn->prepare($query);
+                //lo ejecuto
+                if ($stmt->execute()){
+                    $query = "PREPARE dynamic_statement FROM @sql;";
+                    // prepare
+                    $stmt = $this->conn->prepare($query);
+                    //lo ejecuto
+                    if($stmt->execute()){
+                        $query = "EXECUTE dynamic_statement;";
+                        // prepare
+                        $stmt = $this->conn->prepare($query);
+                        //lo ejecuto
+                        $stmt->execute();
+                        return $stmt;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;   
+            }
+        } else {
+            return array( "message" => "Error al declarar la variable de tabla.");
+        }
     }
 }
