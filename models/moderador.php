@@ -15,6 +15,7 @@ class Moderador
     public $fk_id_articulo;
     public $estado_moderacion;
     public $fk_id_comentario;
+    public $fk_id_usuario;
 
     public function __construct($db)
     {
@@ -47,6 +48,22 @@ class Moderador
         } else {
             return false;
         }
+    }
+
+    public function logUsuario(){
+        $query = "INSERT INTO tb_moderador_usuario VALUES(0,?,NOW());";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->fk_id_usuario=htmlspecialchars(strip_tags($this->fk_id_usuario));
+        //bind
+        $stmt->bindParam(1, $this->fk_id_usuario);
+        //execute
+        if ($stmt->execute()) {
+            return $stmt;
+        } else {
+            return false;
+        } 
     }
 
 }
