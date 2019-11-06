@@ -8,23 +8,28 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 //Req includes
 include_once '../../config/database.php';
-include_once '../../models/articulos.php';
+include_once '../../models/moderador.php';
 
 //Db conn and instances
 $database = new Database();
 $db=$database->getConnection();
 
 try {
-    $articulos = new Articulos($db);
-
+    $moderador = new Moderador($db);
+    // obtengo la información
     $data = json_decode(file_get_contents("php://input"));
-
-    $articulos->fk_id_usuario = $data->id_usuario;
+    // seteo la data
+    $moderador->fk_id_articulo = $data->id_articulo;
     // realizo el query
-    $stmt = $articulos->getMyArticulos();
-    // retorno un json
-    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
-
+    if($moderador->publicArticulo()){
+        echo json_encode(
+            array( "message" => "Articulo publicado.")
+        );
+    } else {
+        echo json_encode(
+            array( "message" => "Error al publicar el Articulo.")
+        );
+    }
 } catch (Exception $e) {
     echo 'Excepción capturada: ',  $e->getMessage(), "\n";
 }

@@ -16,6 +16,7 @@ class Articulos
     public $visita_articulo;
     public $plantilla_articulo;
     public $fk_id_articulo;
+    public $fk_id_usuario;
 
     //object imagen articulo
     public $id_articulo_imagen;
@@ -47,18 +48,20 @@ class Articulos
 
     //crea un articulo
     public function createA() {
-        $query = "INSERT INTO ".$this->table_name." (titulo_articulo,fecha_creacion,fecha_publicacion,estado_articulo,fk_id_estado,visita_articulo,plantilla_articulo) 
-                    VALUES (:titulo,NOW(),NULL,true,:estado,0,:plantilla);";
+        $query = "INSERT INTO ".$this->table_name." (titulo_articulo,fecha_creacion,fecha_publicacion,estado_articulo,fk_id_estado,visita_articulo,plantilla_articulo,fk_id_usuario) 
+                    VALUES (:titulo,NOW(),NULL,true,:estado,0,:plantilla,:id_usuario);";
         //prepare
         $stmt = $this->conn->prepare($query);
         //sanitize
         $this->titulo_articulo=htmlspecialchars(strip_tags($this->titulo_articulo));
         $this->fk_id_estado=htmlspecialchars(strip_tags($this->fk_id_estado));
         $this->plantilla_articulo=htmlspecialchars(strip_tags($this->plantilla_articulo));
+        $this->fk_id_usuario=htmlspecialchars(strip_tags($this->fk_id_usuario));
         //bind foreign key and the path
         $stmt->bindParam(":titulo", $this->titulo_articulo);
         $stmt->bindParam(":estado", $this->fk_id_estado);
         $stmt->bindParam(":plantilla", $this->plantilla_articulo);
+        $stmt->bindParam(":id_usuario", $this->fk_id_usuario);
         //execute
         if($stmt->execute()){
             return true;
@@ -335,6 +338,77 @@ class Articulos
             }
         } else {
             return array( "message" => "Error al declarar la variable de tabla.");
+        }
+    }
+
+    public function getMyArticulos(){
+        $query = "SELECT * FROM tb_articulos WHERE fk_id_usuario = ?;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->fk_id_usuario=htmlspecialchars(strip_tags($this->fk_id_usuario));
+        //bind
+        $stmt->bindParam(1,$this->fk_id_usuario);
+        //execute
+        $stmt->execute();
+        //return the execute
+        return $stmt;
+    }
+
+    // esta funcion edita el encabesado de un articulo
+    public function editArticulo(){
+        $query = "UPDATE tb_articulos SET titulo_articulo=?, plantilla_articulo=? WHERE id_articulo=?;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->titulo_articulo=htmlspecialchars(strip_tags($this->titulo_articulo));
+        $this->plantilla_articulo=htmlspecialchars(strip_tags($this->plantilla_articulo));
+        $this->id_articulo=htmlspecialchars(strip_tags($this->id_articulo));
+        //bind
+        $stmt->bindParam(1,$this->titulo_articulo);
+        $stmt->bindParam(2,$this->plantilla_articulo);
+        $stmt->bindParam(3,$this->id_articulo);
+        //execute
+        if($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    // este funcion edita el parrafo de un articulo
+    public function editArticuloParrafo(){
+        $query = "UPDATE tb_articulo_parrafo SET parrafo_articulo=? WHERE id_articulo_parrafo=?;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->parrafo_articulo=htmlspecialchars(strip_tags($this->parrafo_articulo));
+        $this->id_articulo_parrafo=htmlspecialchars(strip_tags($this->id_articulo_parrafo));
+        //bind
+        $stmt->bindParam(1,$this->parrafo_articulo);
+        $stmt->bindParam(2,$this->id_articulo_parrafo);
+        //execute
+        if($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    // esta funcion edita las imagenes de un articulo
+    public function editArticuloImagen(){
+        $query = "UPDATE tb_articulo_imagen SET path=? WHERE id_articulo_imagen=?;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->path=htmlspecialchars(strip_tags($this->path));
+        $this->id_articulo_imagen=htmlspecialchars(strip_tags($this->id_articulo_imagen));
+        //bind
+        $stmt->bindParam(1,$this->path);
+        $stmt->bindParam(2,$this->id_articulo_imagen);
+        //execute
+        if($stmt->execute()) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

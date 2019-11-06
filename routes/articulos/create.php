@@ -23,6 +23,7 @@ $data = json_decode(file_get_contents("php://input"));
 $articulo->titulo_articulo = $data->titulo;
 $articulo->fk_id_estado = $data->fk_id_estado;
 $articulo->plantilla_articulo = $data->plantilla_articulo;
+$articulo->fk_id_usuario = $data->id_usuario;
 
 if($articulo->createA()) {
     $stmt = $articulo->getArticuloTitulo();

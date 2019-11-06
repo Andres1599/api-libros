@@ -19,11 +19,22 @@ try {
 
     $data = json_decode(file_get_contents("php://input"));
 
-    $articulos->fk_id_usuario = $data->id_usuario;
-    // realizo el query
-    $stmt = $articulos->getMyArticulos();
-    // retorno un json
-    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+    $articulos->parrafo_articulo = $data->parrafo_articulo;
+    $articulos->id_articulo_parrafo = $data->id_articulo_parrafo;
+    
+    if ($articulos->editArticuloParrafo()) {
+        echo json_encode(
+            array(
+                "message" => "Se ha actualizado el parrafo del articulo."
+            )
+        );
+    } else {
+        echo json_encode(
+            array(
+                "message" => "No se ha actualizado el parrafo del articulo."
+            )
+        );
+    }
 
 } catch (Exception $e) {
     echo 'Excepción capturada: ',  $e->getMessage(), "\n";

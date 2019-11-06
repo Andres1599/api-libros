@@ -19,11 +19,22 @@ try {
 
     $data = json_decode(file_get_contents("php://input"));
 
-    $articulos->fk_id_usuario = $data->id_usuario;
-    // realizo el query
-    $stmt = $articulos->getMyArticulos();
-    // retorno un json
-    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+    $articulos->path = $data->path;
+    $articulos->id_articulo_imagen = $data->id_articulo_imagen;
+    
+    if ($articulos->editArticuloImagen()) {
+        echo json_encode(
+            array(
+                "message" => "Se ha actualizado la imagen del articulo."
+            )
+        );
+    } else {
+        echo json_encode(
+            array(
+                "message" => "No se ha actualizado la imagen del articulo."
+            )
+        );
+    }
 
 } catch (Exception $e) {
     echo 'Excepción capturada: ',  $e->getMessage(), "\n";
