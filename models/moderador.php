@@ -66,4 +66,32 @@ class Moderador
         } 
     }
 
+    public function getModerationComentario(){
+        $query = "SELECT * FROM tb_moderado_comentarios m LEFT OUTER JOIN tb_comentario c ON m.fk_id_comentario = c.id_comentario WHERE m.estado_moderacion=0;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //execute
+        if ($stmt->execute()) {
+            return $stmt;
+        } else {
+            return false;
+        }
+    }
+
+    public function publicComentario(){
+        $query = "UPDATE tb_moderado_comentarios SET estado_moderacion=1 WHERE id_moderado=?;";
+        //prepare
+        $stmt = $this->conn->prepare($query);
+        //sanitize
+        $this->id_moderado=htmlspecialchars(strip_tags($this->id_moderado));
+        //bind
+        $stmt->bindParam(1, $this->id_moderado);
+        //execute
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
